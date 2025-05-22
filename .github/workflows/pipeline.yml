@@ -25,7 +25,7 @@ jobs:
       - name: Copy Apache Configuration
         run: |
           echo "Copying Apache configuration"
-          sudo cp path/to/your/apache/config/file.conf /etc/apache2/sites-available/000-default.conf
+          sudo cp html/index.html /var/www/html/index.html
 
       - name: Restart Apache
         run: |
