@@ -13,17 +13,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-
-      - name: Install Apache on GCP VM
-        run: |
-          echo "Installing Apache on GCP VM"
-          ssh -o StrictHostKeyChecking=no 35.185.145.250 << 'EOF'
-          sudo apt update
-          sudo apt install -y apache2
-          sudo systemctl start apache2
-          sudo systemctl enable apache2
-          EOF
-
       - name: Copy Apache Configuration to GCP VM
         env:
           VM_IP: "35.185.145.250"
