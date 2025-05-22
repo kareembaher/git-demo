@@ -9,25 +9,25 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: runs-on: self-hosted
 
     steps:
       - uses: actions/checkout@v4
-      - name: Copy Apache Configuration to GCP VM
-        env:
-          VM_IP: "35.185.145.250"
-          VM_USER: student-03-c285fbc59ba3
-        run: |
-          echo "Copying Apache configuration to GCP VM"
-          scp -o StrictHostKeyChecking=no html/index.html $VM_USER@$VM_IP:/tmp/apache-config.conf
 
-      - name: Apply Apache Configuration on GCP VM
-        env:
-          VM_IP: "35.185.145.250"
-          VM_USER: student-03-c285fbc59ba3
+      - name: Install Apache
         run: |
-          echo "Applying Apache configuration on GCP VM"
-          ssh -o StrictHostKeyChecking=no $VM_USER@$VM_IP << 'EOF'
-          sudo mv /tmp/apache-config.conf /etc/apache2/sites-available/000-default.conf
+          echo "Installing Apache"
+          sudo apt update
+          sudo apt install -y apache2
+          sudo systemctl start apache2
+          sudo systemctl enable apache2
+
+      - name: Copy Apache Configuration
+        run: |
+          echo "Copying Apache configuration"
+          sudo cp path/to/your/apache/config/file.conf /etc/apache2/sites-available/000-default.conf
+
+      - name: Restart Apache
+        run: |
+          echo "Restarting Apache"
           sudo systemctl restart apache2
-          EOF
