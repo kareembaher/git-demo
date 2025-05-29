@@ -1,0 +1,25 @@
+name: CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: self-hosted
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Copy Apache Configuration
+        run: |
+          echo "Copying Apache configuration"
+          sudo cp html/index.html /var/www/html/index.html
+
+      - name: Restart Apache
+        run: |
+          echo "Restarting Apache"
+          sudo systemctl restart apache2
