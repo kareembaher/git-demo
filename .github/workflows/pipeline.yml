@@ -1,5 +1,4 @@
 name: CI
-
 on:
   push:
     branches: [ "main" ]
@@ -10,16 +9,15 @@ on:
 jobs:
   build:
     runs-on: self-hosted
-
     steps:
       - uses: actions/checkout@v4
 
-      - name: Copy Apache Configuration
+      - name: Build Docker Image
         run: |
-          echo "Copying Apache configuration"
-          sudo cp html/index.html /var/www/html/index.html
+          echo "Building Docker image"
+          sudo docker build -t my-apache2-image .
 
-      - name: Restart Apache
+      - name: Run Docker Container
         run: |
-          echo "Restarting Apache"
-          sudo systemctl restart apache2
+          echo "Running Docker container"
+          sudo docker run -d -p 80:80 --name apache2-container my-apache2-image
